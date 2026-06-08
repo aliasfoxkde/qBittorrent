@@ -1,0 +1,21 @@
+[Unit]
+Description=VPN Monitor for qBittorrent - Ensures VPN is always active
+Documentation=file:///home/mkinney/repos/qBittorrent/docs/VPN-FINAL-STATUS.md
+After=network-online.target qbittorrent-vpn-namespace.service
+Requires=qbittorrent-vpn-namespace.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/home/mkinney/repos/qBittorrent/docs/vpn-monitor.sh monitor
+Restart=always
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+
+# Hardening
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

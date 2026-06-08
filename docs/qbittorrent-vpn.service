@@ -1,0 +1,21 @@
+[Unit]
+Description=qBittorrent-nox with VPN Enforcement
+Documentation=file:///home/mkinney/repos/qBittorrent/docs/VPN-FINAL-STATUS.md
+Wants=network-online.target qbittorrent-vpn-namespace.service
+After=network-online.target nss-lookup.target qbittorrent-vpn-namespace.service
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/ip netns exec vpn_torrent /usr/bin/qbittorrent-nox --profile=/var/lib/qbittorrent
+Restart=on-failure
+RestartSec=10s
+TimeoutStartSec=90s
+TimeoutStopSec=30s
+
+# Hardening
+PrivateTmp=true
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target

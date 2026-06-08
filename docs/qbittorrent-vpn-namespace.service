@@ -1,0 +1,20 @@
+[Unit]
+Description=VPN Namespace and Enforcement for qBittorrent
+Documentation=file:///home/mkinney/repos/qBittorrent/docs/VPN-FINAL-STATUS.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/mkinney/repos/qBittorrent/docs/vpn-enforce.sh start
+ExecStop=/home/mkinney/repos/server-config/configs/vpn/vpn-torrent.sh stop
+TimeoutStartSec=90
+TimeoutStopSec=30
+
+# Hardening
+PrivateTmp=true
+NoNewPrivileges=false
+
+[Install]
+WantedBy=multi-user.target
